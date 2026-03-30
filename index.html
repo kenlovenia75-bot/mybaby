@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Love 💖</title>
+
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: pink;
+    scroll-behavior: smooth;
+}
+
+/* CANVAS PARTICLES */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+/* PHOTOS */
+.photo {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+/* SCROLL ARROW */
+#scroll-arrow {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 30px;
+    color: white;
+    animation: bounce 1.2s infinite;
+    z-index: 10;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+    40% {transform: translateX(-50%) translateY(-10px);}
+    60% {transform: translateX(-50%) translateY(-5px);}
+}
+
+/* MESSAGE SECTION */
+.message-section {
+    margin-top: 120vh;
+    padding: 50px;
+}
+
+/* BUTTON */
+button {
+    padding: 12px 25px;
+    font-size: 18px;
+    border: none;
+    border-radius: 12px;
+    background: white;
+    color: hotpink;
+    cursor: pointer;
+}
+
+/* LETTER */
+.letter {
+    width: 90%;
+    max-width: 400px;
+    margin: 20px auto;
+    background: #fff0f5;
+    padding: 20px;
+    border-radius: 10px;
+    color: black;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.6s ease;
+}
+
+.letter.open {
+    transform: scaleY(1);
+    transition: transform 0.8s ease;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<!-- SCROLL ARROW -->
+<div id="scroll-arrow">&#8595;</div>
+
+<!-- PHOTOS -->
+<img src="https://via.placeholder.com/100" class="photo">
+<img src="https://via.placeholder.com/100" class="photo">
+<img src="https://via.placeholder.com/100" class="photo">
+<img src="https://via.placeholder.com/100" class="photo">
+<img src="https://via.placeholder.com/100" class="photo">
+<img src="https://via.placeholder.com/100" class="photo">
+<img src="https://via.placeholder.com/100" class="photo">
+<img src="https://via.placeholder.com/100" class="photo">
+<img src="https://via.placeholder.com/100" class="photo">
+<img src="https://via.placeholder.com/100" class="photo">
+
+<!-- MESSAGE SECTION -->
+<div class="message-section">
+    <button onclick="openLetter()">Open the Letter 💌</button>
+    <div class="letter" id="letter">
+        <p>
+Hi mahal, thank you for everything, i really appreciate kung paano mo ako alagaan at mahalin. Mahal sana tayo na talaga, hindi ko na alam gagawin pag nawala ka sakin kasi napamahal na ako ng sobra sayo sa bawat araw na magkausap tayo mas lalo kitang minamahal, hindi tulad ng iba na pag tumatagal nagsasawa agad, iba ka mahal sobrang saya ko na dumating ka sa buhay ko and sana tuloy-tuloy na to. Gusto ko lang sabihin na kahit may kunting hindi pagkakaunawaan ay aayusin natin para hindi na lumala pa, salamat dahil pinaramdam mo sakin kung paano mahalin ng totoo at ipaparamdam ko rin sayo na tratuhin ng tama dahil alam ko na ako ang first mo (magiging palang pala AHAHAHAHAHAHA) so ayun love, gustoo ko lang sabihin na mahal na mahal na mahal na mahal kita at mamahalin pa habang dumaraan ang mga araw, di mag babago yun. Yun lang mahal, iloveyousomuchh.
+        </p>
+    </div>
+</div>
+
+<audio id="music" src="your-music.mp3"></audio>
+
+<script>
+/* PARTICLES BACKGROUND */
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+class Particle {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = canvas.height;
+        this.size = Math.random() * 4 + 2;
+        this.speed = Math.random() * 2 + 1;
+    }
+
+    update() {
+        this.y -= this.speed;
+        if (this.y < 0) {
+            this.y = canvas.height;
+            this.x = Math.random() * canvas.width;
+        }
+    }
+
+    draw() {
+        ctx.fillStyle = "rgba(255,105,180,0.7)";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+for (let i = 0; i < 100; i++) {
+    particles.push(new Particle());
+}
+
+function animate() {
+    ctx.fillStyle = "pink"; // Keep background pink
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach(p => {
+        p.update();
+        p.draw();
+    });
+
+    requestAnimationFrame(animate);
+}
+animate();
+
+/* HEART PHOTO ANIMATION */
+const photos = document.querySelectorAll('.photo');
+const centerX = window.innerWidth / 2 - 50;
+const centerY = window.innerHeight / 2 - 50;
+
+const heartPositions = [
+    {x:0, y:-120},{x:-60, y:-160},{x:-120, y:-120},{x:-120, y:-40},{x:-60, y:20},
+    {x:0, y:60},{x:60, y:20},{x:120, y:-40},{x:120, y:-120},{x:60, y:-160}
+];
+
+// Random start positions
+photos.forEach(photo => {
+    photo.style.left = Math.random() * window.innerWidth + "px";
+    photo.style.top = Math.random() * window.innerHeight + "px";
+});
+
+setTimeout(() => {
+    photos.forEach((photo, i) => {
+        photo.style.transition = "all 2s ease";
+        photo.style.left = (centerX + heartPositions[i].x) + "px";
+        photo.style.top = (centerY + heartPositions[i].y) + "px";
+    });
+
+    // Enable scroll after animation
+    setTimeout(() => { document.body.style.overflowY = "auto"; }, 2000);
+}, 1000);
+
+/* OPEN LETTER + MUSIC */
+function openLetter() {
+    document.getElementById("letter").classList.add("open");
+    document.getElementById("music").play();
+}
+
+/* RESPONSIVE */
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>
